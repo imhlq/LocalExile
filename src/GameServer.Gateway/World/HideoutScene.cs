@@ -64,7 +64,11 @@ sealed record HideoutScene(HideoutCatalog.Doodad Stash, (int X, int Y) Guild,
             hideout.AreaId == HideoutCatalog.DefaultArea ? device.Y : waypoint.Y + 20, 4);
         device = device with { X = mx, Y = my };
         var npcs = new List<NpcCatalog.Placement>();
-        foreach (var npc in NpcCatalog.HideoutNpcs)
+        var placements = NpcCatalog.HideoutNpcs.ToList();
+        const string faustus = "Metadata/NPC/League/Kalguur/VillageFaustusHideout";
+        if (ExchangeMarkets.ForceFaustus && !placements.Any(n => n.Id == faustus))
+            placements.Add(new(faustus, 277, 330, 4.0f));
+        foreach (var npc in placements)
         {
             var (x, y) = Place(waypoint.X + npc.X - origin.X, waypoint.Y + npc.Y - origin.Y, 4);
             npcs.Add(npc with { X = x, Y = y });

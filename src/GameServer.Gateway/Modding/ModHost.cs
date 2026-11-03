@@ -740,6 +740,12 @@ sealed class ModHost(string folder, Action<string> log, bool modules = false, bo
         public ModManifest Manifest => mod.Manifest;
         public IModuleLifetime Lifetime => mod.Lifetime;
         public string Folder => mod.Folder;
+        public IExchangeMarket RegisterExchangeMarket(bool ensureFaustus = true)
+        {
+            var market = ExchangeMarkets.Register(mod.Manifest.Id, ensureFaustus);
+            mod.Lifetime.Own(market);
+            return market;
+        }
         public void Log(string message) => host.Write($"{host.Tag} {mod.Manifest.Id}: {message}");
 
         IDisposable Add<T>(HookList<T> list, T run)

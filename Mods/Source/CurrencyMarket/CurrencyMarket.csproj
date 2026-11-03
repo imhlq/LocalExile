@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><None Include="README.md" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
+</Project>
